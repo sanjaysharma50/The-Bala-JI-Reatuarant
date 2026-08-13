@@ -1,0 +1,1081 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Balaji Restaurant</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<header class="navbar">
+
+    <a href="#home" class="logo">
+        The Balaji
+        <span>Restaurant</span>
+    </a>
+
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open Menu"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+
+    <nav id="mainNav">
+
+        <a href="#home">Home</a>
+
+        <a href="#menu">Menu</a>
+
+        <a href="#about">About</a>
+
+        <a href="#gallery">Gallery</a>
+
+        <a href="#reviews">Reviews</a>
+
+        <a href="#contact">Contact</a>
+
+    </nav>
+
+         <a href="#reservation" class="nav-btn">
+           Book a Table
+        </a>
+   
+</header>
+
+<!-- =========================
+     HERO SECTION
+========================= -->
+
+<section class="hero" id="home">
+
+
+    <div class="hero-content">
+
+
+        <p class="small-title">
+
+            WELCOME TO THE BALAJI
+
+        </p>
+
+
+        <h1>
+
+            Taste That
+
+            <span>Feels Like Home.</span>
+
+        </h1>
+
+
+        <p class="hero-text">
+
+            Delicious vegetarian food, warm hospitality
+            and unforgettable moments — all served with love.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+
+            <a href="#menu" class="primary-btn">
+
+                Explore Menu
+
+            </a>
+
+
+            <a href="#reservation" class="secondary-btn">
+            Book a Table
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     MENU SECTION
+========================= -->
+
+<section class="special-section" id="menu">
+
+
+    <div class="section-heading">
+
+
+        <p>OUR MENU</p>
+
+
+        <h2>
+
+            Deliciously
+
+            <span>Vegetarian.</span>
+
+        </h2>
+
+
+        <p class="description">
+
+            Fresh ingredients, authentic flavours and
+            vegetarian dishes prepared with love.
+
+        </p>
+
+
+    </div>
+
+
+
+    <!-- DYNAMIC MENU CATEGORIES -->
+
+    {% regroup menu_items by category as category_list %}
+
+
+    {% for category in category_list %}
+
+
+    <div class="menu-category">
+
+
+        <h3>
+
+
+            {% if category.grouper.name == "Veg Starters" %}
+
+                🥗
+
+            {% elif category.grouper.name == "Main Course" %}
+
+                🍛
+
+            {% elif category.grouper.name == "Rice & Biryani" %}
+
+                🍚
+
+            {% elif category.grouper.name == "Roti & Naan" %}
+
+                🫓
+
+            {% elif category.grouper.name == "Beverages" %}
+
+                🥤
+
+            {% elif category.grouper.name == "Desserts" %}
+
+                🍰
+
+            {% else %}
+
+                🍽️
+
+            {% endif %}
+
+
+            {{ category.grouper.name }}
+
+
+        </h3>
+
+
+
+        <div class="menu-grid">
+
+
+            {% for item in category.list %}
+
+
+            <div class="menu-item">
+
+
+                {% if item.image %}
+
+                <div class="menu-image">
+
+                    <img
+                        src="{{ item.image.url }}"
+                        alt="{{ item.name }}"
+                    >
+
+                </div>
+
+                {% endif %}
+
+
+
+                <div class="menu-details">
+
+
+                    <h4>
+
+                        {{ item.name }}
+
+                    </h4>
+
+
+
+                    {% if item.description %}
+
+                    <p>
+
+                        {{ item.description }}
+
+                    </p>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <strong>
+
+                    ₹{{ item.price }}
+
+                </strong>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+
+    {% empty %}
+
+
+    <div class="empty-menu">
+
+        <p>
+
+            Our menu is being updated.
+            Please check back soon.
+
+        </p>
+
+    </div>
+
+
+    {% endfor %}
+
+
+</section>
+
+
+
+<!-- =========================
+     ABOUT SECTION
+========================= -->
+
+<section class="about-section" id="about">
+
+
+    <div class="about-content">
+
+
+        <p class="small-title">
+
+            OUR STORY
+
+        </p>
+
+
+        <h2>
+
+            Food Made With
+
+            <span>Love.</span>
+
+        </h2>
+
+
+        <p>
+
+            At The Balaji Restaurant, we believe great food
+            brings people together.
+
+        </p>
+
+
+        <p>
+
+            We serve freshly prepared vegetarian dishes using
+            quality ingredients, traditional flavours and
+            recipes made with care.
+
+        </p>
+
+
+        <p>
+
+            Whether it is a family dinner, a celebration or
+            a casual meal with friends, we are here to make
+            every moment special.
+
+        </p>
+
+
+    </div>
+
+
+</section>
+
+<!-- =========================
+     GALLERY
+========================= -->
+
+<section class="gallery-section" id="gallery">
+
+    <div class="section-heading">
+
+        <p>OUR GALLERY</p>
+
+        <h2>
+            A Taste of
+            <span>The Balaji.</span>
+        </h2>
+
+        <p class="description">
+            Explore our food, ambience and memorable moments.
+        </p>
+
+    </div>
+
+
+    <div class="gallery-grid">
+
+        {% for image in gallery_images %}
+
+        <div class="gallery-card">
+
+            <div class="gallery-image">
+
+                <img
+                    src="{{ image.image.url }}"
+                    alt="{{ image.title }}"
+                >
+
+            </div>
+
+            <div class="gallery-title">
+                {{ image.title }}
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-gallery">
+            <p>Our gallery is being updated. Check back soon.</p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<!-- =========================
+     REVIEWS SECTION
+========================= -->
+
+<section class="reviews-section" id="reviews">
+
+
+    <div class="section-heading">
+
+
+        <p>WHAT OUR GUESTS SAY</p>
+
+
+        <h2>
+
+            Loved By
+
+            <span>Our Guests.</span>
+
+        </h2>
+
+
+        <p class="description">
+
+            Good food deserves good words.
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="review-grid">
+
+
+        <div class="review-card">
+
+
+            <div class="stars">
+
+                ★★★★★
+
+            </div>
+
+
+            <p>
+
+                Amazing vegetarian food and beautiful
+                ambience. Everything tasted fresh and delicious.
+
+            </p>
+
+
+            <h4>
+
+                Rahul Sharma
+
+            </h4>
+
+
+            <small>
+
+                Jaipur
+
+            </small>
+
+
+        </div>
+
+
+
+        <div class="review-card">
+
+
+            <div class="stars">
+
+                ★★★★★
+
+            </div>
+
+
+            <p>
+
+                One of the best places for a family dinner.
+                Great taste, service and atmosphere.
+
+            </p>
+
+
+            <h4>
+
+                Priya Mehta
+
+            </h4>
+
+
+            <small>
+
+                Jaipur
+
+            </small>
+
+
+        </div>
+
+
+
+        <div class="review-card">
+
+
+            <div class="stars">
+
+                ★★★★★
+
+            </div>
+
+
+            <p>
+
+                Loved the paneer dishes and the overall
+                experience. Highly recommended.
+
+            </p>
+
+
+            <h4>
+
+                Amit Gupta
+
+            </h4>
+
+
+            <small>
+
+                Jaipur
+
+            </small>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     CONTACT SECTION
+========================= -->
+
+<section class="contact-section" id="contact">
+
+
+    <div class="contact-content">
+
+
+        <p class="section-label">
+
+            VISIT US
+
+        </p>
+
+
+        <h2>
+
+            Come Hungry.
+
+            <span>Leave Happy.</span>
+
+        </h2>
+
+
+        <p>
+
+            Reserve your table and enjoy delicious
+            vegetarian food with your loved ones.
+
+        </p>
+
+
+
+        <div class="contact-info">
+
+
+            <div>
+
+
+                <strong>
+
+                    📍 Address
+
+                </strong>
+
+
+                <p>
+
+                    Jaipur, Rajasthan
+
+                </p>
+
+
+            </div>
+
+
+
+            <div>
+
+
+                <strong>
+
+                    📞 Phone
+
+                </strong>
+
+
+                <p>
+
+                    +91 98765 43210
+
+                </p>
+
+
+            </div>
+
+
+
+            <div>
+
+
+                <strong>
+
+                    🕐 Opening Hours
+
+                </strong>
+
+
+                <p>
+
+                    11:00 AM – 11:00 PM
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+ <!-- =========================
+     CONTACT FORM
+========================= -->
+
+<div class="contact-form-box">
+
+    <h3>Send Us a Message</h3>
+
+    <p>
+        Have a question or special request?
+        We'd love to hear from you.
+    </p>
+
+
+    <form
+        method="POST"
+        action="{% url 'home' %}"
+        class="contact-form"
+    >
+
+        {% csrf_token %}
+
+        <input
+            type="hidden"
+            name="form_type"
+            value="contact"
+        >
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Your Name *
+                </label>
+
+                <input
+                    type="text"
+                    name="contact_name"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    name="contact_phone"
+                    placeholder="Enter phone number"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="contact_email"
+                    placeholder="Enter your email"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Subject
+                </label>
+
+                <input
+                    type="text"
+                    name="contact_subject"
+                    placeholder="What is this about?"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Your Message *
+            </label>
+
+            <textarea
+                name="contact_message"
+                rows="5"
+                placeholder="Write your message..."
+                required
+            ></textarea>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="primary-btn contact-submit"
+        >
+            Send Message
+        </button>
+
+    </form>
+
+</div>
+
+<!-- =========================
+     RESERVATION FORM
+========================= -->
+
+</div>
+
+<div class="reservation-box" id="reservation">
+
+    <h3>Book Your Table</h3>
+
+    <p>
+        Reserve your table and enjoy a delicious
+        vegetarian meal with your loved ones.
+    </p>
+
+
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <form
+        method="POST"
+        action="{% url 'home' %}"
+        class="reservation-form"
+    >
+
+        {% csrf_token %}
+
+<input
+    type="hidden"
+    name="form_type"
+    value="reservation"
+>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Your Name *
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Phone Number *
+                </label>
+
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Number of Guests *
+                </label>
+
+                <input
+                    type="number"
+                    name="guests"
+                    min="1"
+                    max="50"
+                    value="2"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Date *
+                </label>
+
+                <input
+                    type="date"
+                    name="date"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Time *
+                </label>
+
+                <input
+                    type="time"
+                    name="time"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Special Request
+            </label>
+
+            <textarea
+                name="message"
+                rows="4"
+                placeholder="Any special request?"
+            ></textarea>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="primary-btn reservation-btn"
+        >
+            Reserve My Table
+        </button>
+
+    </form>
+
+</div>
+
+      
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+
+    <div class="footer-logo">
+
+        The Balaji
+
+    </div>
+
+
+    <p>
+
+        Delicious vegetarian food served with love.
+
+    </p>
+
+
+
+    <div class="footer-links">
+
+
+        <a href="#home">
+
+            Home
+
+        </a>
+
+
+        <a href="#menu">
+
+            Menu
+
+        </a>
+
+
+        <a href="#about">
+
+            About
+
+        </a>
+
+
+        <a href="#gallery">
+
+            Gallery
+
+        </a>
+
+
+        <a href="#reviews">
+
+            Reviews
+
+        </a>
+
+
+        <a href="#contact">
+
+            Contact
+
+        </a>
+
+
+    </div>
+
+
+
+    <p class="copyright">
+
+        © 2026 The Balaji Restaurant.
+        All Rights Reserved.
+
+    </p>
+
+
+</footer>
+
+<script>
+    const menuToggle = document.getElementById("menuToggle");
+    const mainNav = document.getElementById("mainNav");
+
+    menuToggle.addEventListener("click", function () {
+        menuToggle.classList.toggle("active");
+        mainNav.classList.toggle("active");
+    });
+
+    // Link click karne par mobile menu close
+    document.querySelectorAll("#mainNav a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            menuToggle.classList.remove("active");
+            mainNav.classList.remove("active");
+        });
+    });
+</script>
+
+</body>
+
+</html>
