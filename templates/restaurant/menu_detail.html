@@ -1,0 +1,229 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+{{ item.name }} | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<section class="section">
+
+    <div class="container">
+
+        <a href="{% url 'menu' %}" class="back-link">
+            ← Back to Menu
+        </a>
+
+
+        <div class="detail-grid">
+
+            <div class="detail-image">
+
+                {% if item.image %}
+
+                    <img
+                        src="{{ item.image.url }}"
+                        alt="{{ item.name }}"
+                    >
+
+                {% else %}
+
+                    <div class="large-placeholder">
+                        🍽️
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="detail-content">
+
+                <span class="category-label">
+                    {{ item.category.name }}
+                </span>
+
+                <h1>
+                    {{ item.name }}
+                </h1>
+
+                <div class="detail-rating">
+
+                    {% if average_rating %}
+
+                        ⭐ {{ average_rating|floatformat:1 }}/5
+
+                    {% else %}
+
+                        No ratings yet
+
+                    {% endif %}
+
+                </div>
+
+                <div class="detail-price">
+                    ₹{{ item.price }}
+                </div>
+
+                <p>
+                    {{ item.description }}
+                </p>
+
+                <p>
+
+                    {% if item.food_type == "veg" %}
+
+                        🟢 Vegetarian
+
+                    {% else %}
+
+                        🔴 Non-Vegetarian
+
+                    {% endif %}
+
+                </p>
+
+
+                {% if item.is_available %}
+
+                    <a
+                        href="{% url 'add_to_cart' item.id %}"
+                        class="btn"
+                    >
+                        🛒 Add to Cart
+                    </a>
+
+                {% else %}
+
+                    <span class="unavailable">
+                        Currently Unavailable
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="reviews-area">
+
+            <div class="section-heading left">
+
+                <span class="eyebrow">
+                    CUSTOMER REVIEWS
+                </span>
+
+                <h2>Reviews</h2>
+
+            </div>
+
+
+            {% if user.is_authenticated %}
+
+                <form method="POST" class="form-card">
+
+                    {% csrf_token %}
+
+                    <label>
+                        Rating
+                    </label>
+
+                    <select name="rating" required>
+
+                        <option value="">
+                            Select Rating
+                        </option>
+
+                        <option value="5">★★★★★ - Excellent</option>
+                        <option value="4">★★★★ - Very Good</option>
+                        <option value="3">★★★ - Good</option>
+                        <option value="2">★★ - Average</option>
+                        <option value="1">★ - Poor</option>
+
+                    </select>
+
+
+                    <label>
+                        Your Review
+                    </label>
+
+                    <textarea
+                        name="comment"
+                        rows="4"
+                        placeholder="Share your experience..."
+                    ></textarea>
+
+
+                    <button
+                        type="submit"
+                        class="btn"
+                    >
+                        Submit Review
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <div class="info-box">
+
+                    Please
+                    <a href="{% url 'login' %}">
+                        login
+                    </a>
+                    to write a review.
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="review-grid">
+
+                {% for review in reviews %}
+
+                    <div class="review-card">
+
+                        <div class="stars">
+
+                            {% for i in "12345" %}
+
+                                {% if forloop.counter <= review.rating %}
+                                    ★
+                                {% else %}
+                                    ☆
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        <p>
+                            "{{ review.comment }}"
+                        </p>
+
+                        <strong>
+                            {{ review.user.username }}
+                        </strong>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+                        No reviews yet.
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

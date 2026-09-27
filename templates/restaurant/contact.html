@@ -1,0 +1,128 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+Contact Us | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            CONTACT US
+        </span>
+
+        <h1>We'd Love to Hear From You</h1>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container contact-grid">
+
+        <div class="contact-info">
+
+            <h2>Get In Touch</h2>
+
+            <p>
+                Have a question or want to know more?
+                Send us a message.
+            </p>
+
+            <div class="contact-item">
+                📍
+                <span>
+                    Your Restaurant Address
+                </span>
+            </div>
+
+            <div class="contact-item">
+                📞
+                <span>
+                    +91 00000 00000
+                </span>
+            </div>
+
+            <div class="contact-item">
+                ✉️
+                <span>
+                    info@thebalaji.com
+                </span>
+            </div>
+
+            <div class="contact-item">
+                🕐
+                <span>
+                    11:00 AM - 11:00 PM
+                </span>
+            </div>
+
+        </div>
+
+
+        <form method="POST" class="form-card">
+
+            {% csrf_token %}
+
+            <label>Your Name</label>
+
+            <input
+                type="text"
+                name="name"
+                required
+            >
+
+
+            <label>Phone</label>
+
+            <input
+                type="tel"
+                name="phone"
+            >
+
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                name="email"
+            >
+
+
+            <label>Subject</label>
+
+            <input
+                type="text"
+                name="subject"
+            >
+
+
+            <label>Message</label>
+
+            <textarea
+                name="message"
+                rows="6"
+                required
+            ></textarea>
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Send Message
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

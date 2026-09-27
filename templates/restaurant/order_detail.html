@@ -1,0 +1,338 @@
+{% extends "restaurant/base.html" %}
+
+{% block content %}
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            ORDER DETAILS
+        </span>
+
+        <h1>
+            Order #{{ order.id }}
+        </h1>
+
+        <p>
+            {{ order.created_at|date:"d M Y, h:i A" }}
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="order-detail-grid">
+
+
+            <!-- LEFT -->
+
+            <div>
+
+
+                <!-- ORDER STATUS -->
+
+                <div class="detail-card">
+
+                    <div class="detail-card-header">
+
+                        <h2>Order Status</h2>
+
+                        <span class="status-badge">
+                            {{ order.get_status_display }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="status-timeline">
+
+                        <div class="timeline-step active">
+                            <span>✓</span>
+                            <div>
+                                <strong>Order Placed</strong>
+                                <small>Your order has been received.</small>
+                            </div>
+                        </div>
+
+
+                        <div class="timeline-step
+                            {% if order.status == 'confirmed' or order.status == 'preparing' or order.status == 'ready' or order.status == 'completed' %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <span>✓</span>
+
+                            <div>
+                                <strong>Confirmed</strong>
+                                <small>Restaurant confirms your order.</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-step
+                            {% if order.status == 'preparing' or order.status == 'ready' or order.status == 'completed' %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <span>🍳</span>
+
+                            <div>
+                                <strong>Preparing</strong>
+                                <small>Your food is being prepared.</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-step
+                            {% if order.status == 'ready' or order.status == 'completed' %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <span>📦</span>
+
+                            <div>
+                                <strong>Ready</strong>
+                                <small>Your order is ready.</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-step
+                            {% if order.status == 'completed' %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <span>✓</span>
+
+                            <div>
+                                <strong>Completed</strong>
+                                <small>Order completed successfully.</small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ITEMS -->
+
+                <div class="detail-card">
+
+                    <h2>Order Items</h2>
+
+
+                    <div class="detail-items">
+
+                        {% for item in order.items.all %}
+
+                            <div class="detail-item">
+
+                                <div>
+
+                                    <strong>
+                                        {{ item.item_name }}
+                                    </strong>
+
+                                    <p>
+                                        ₹{{ item.price|floatformat:2 }}
+                                        × {{ item.quantity }}
+                                    </p>
+
+                                </div>
+
+
+                                <strong>
+                                    ₹{{ item.subtotal|floatformat:2 }}
+                                </strong>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="total-row">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong>
+                            ₹{{ order.total_amount|floatformat:2 }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div>
+
+
+                <!-- CUSTOMER -->
+
+                <div class="detail-card">
+
+                    <h2>Customer Details</h2>
+
+
+                    <div class="info-list">
+
+                        <div>
+                            <span>Name</span>
+                            <strong>
+                                {{ order.customer_name }}
+                            </strong>
+                        </div>
+
+
+                        <div>
+                            <span>Phone</span>
+                            <strong>
+                                {{ order.phone }}
+                            </strong>
+                        </div>
+
+
+                        <div>
+                            <span>Order Type</span>
+                            <strong>
+                                {{ order.get_order_type_display }}
+                            </strong>
+                        </div>
+
+
+                        {% if order.address %}
+
+                            <div>
+                                <span>Address</span>
+                                <strong>
+                                    {{ order.address }}
+                                </strong>
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div class="detail-card">
+
+                    <h2>Payment</h2>
+
+
+                    <div class="payment-box">
+
+                        <div>
+
+                            <span>
+                                Payment Method
+                            </span>
+
+                            <strong>
+                                {{ order.get_payment_method_display }}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Payment Status
+                            </span>
+
+                            {% if order.payment_status == "paid" %}
+
+                                <strong class="payment-paid">
+                                    ✓ Paid
+                                </strong>
+
+                            {% elif order.payment_status == "failed" %}
+
+                                <strong class="payment-failed">
+                                    ✕ Failed
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="payment-pending">
+                                    Pending
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    {% if order.payment_method == "online" and order.payment_status == "pending" %}
+
+                        <div class="payment-notice">
+
+                            <strong>
+                                Online Payment
+                            </strong>
+
+                            <p>
+                                Online payment gateway will be available here.
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <a
+                    href="{% url 'menu' %}"
+                    class="btn btn-primary full-width"
+                >
+                    Continue Ordering
+                </a>
+
+
+                <a
+                    href="{% url 'orders' %}"
+                    class="back-link"
+                >
+                    ← Back to Orders
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

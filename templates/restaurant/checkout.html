@@ -1,0 +1,252 @@
+{% extends "restaurant/base.html" %}
+
+{% block content %}
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            CHECKOUT
+        </span>
+
+        <h1>
+            Complete Your Order
+        </h1>
+
+        <p>
+            Enter your details and choose your payment method.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="checkout-grid">
+
+
+                <!-- CUSTOMER DETAILS -->
+
+                <div class="detail-card">
+
+                    <h2>Customer Details</h2>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="customer_name"
+                            value="{{ user.get_full_name }}"
+                            placeholder="Enter your full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            placeholder="Enter your phone number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Order Type
+                        </label>
+
+                        <select name="order_type">
+
+                            <option value="pickup">
+                                Pickup
+                            </option>
+
+                            <option value="delivery">
+                                Delivery
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Delivery Address
+                        </label>
+
+                        <textarea
+                            name="address"
+                            rows="4"
+                            placeholder="Enter delivery address if required"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div class="detail-card">
+
+                    <h2>
+                        Payment Method
+                    </h2>
+
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="cod"
+                            checked
+                        >
+
+                        <span>
+
+                            <strong>
+                                💵 Cash on Delivery
+                            </strong>
+
+                            <small>
+                                Pay when your order arrives.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="restaurant"
+                        >
+
+                        <span>
+
+                            <strong>
+                                🏪 Pay at Restaurant
+                            </strong>
+
+                            <small>
+                                Pay when you collect your order.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="online"
+                        >
+
+                        <span>
+
+                            <strong>
+                                💳 Online Payment
+                            </strong>
+
+                            <small>
+                                Online payment gateway.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <div class="checkout-summary">
+
+                        <h3>
+                            Order Summary
+                        </h3>
+
+
+                        {% for cart_item in cart_items %}
+
+                            <div class="summary-row">
+
+                                <span>
+                                    {{ cart_item.item.name }}
+                                    × {{ cart_item.quantity }}
+                                </span>
+
+                                <strong>
+                                    ₹{{ cart_item.subtotal|floatformat:2 }}
+                                </strong>
+
+                            </div>
+
+                        {% endfor %}
+
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong>
+                                ₹{{ total|floatformat:2 }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary full-width"
+                    >
+                        Place Order
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

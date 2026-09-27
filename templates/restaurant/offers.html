@@ -1,0 +1,97 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+Offers | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            SPECIAL OFFERS
+        </span>
+
+        <h1>Offers & Deals</h1>
+
+        <p>
+            Enjoy delicious food with special offers.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="offer-grid">
+
+            {% for offer in offers %}
+
+                <div class="offer-card large-offer">
+
+                    {% if offer.image %}
+
+                        <img
+                            src="{{ offer.image.url }}"
+                            alt="{{ offer.title }}"
+                        >
+
+                    {% endif %}
+
+                    <div>
+
+                        <span class="discount">
+                            {{ offer.discount_percentage }}% OFF
+                        </span>
+
+                        <h2>
+                            {{ offer.title }}
+                        </h2>
+
+                        <p>
+                            {{ offer.description }}
+                        </p>
+
+                        {% if offer.valid_until %}
+
+                            <small>
+                                Valid until
+                                {{ offer.valid_until|date:"d M Y" }}
+                            </small>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="empty-state">
+
+                    <h2>
+                        Offers Coming Soon
+                    </h2>
+
+                    <p>
+                        Check back soon for exciting deals.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

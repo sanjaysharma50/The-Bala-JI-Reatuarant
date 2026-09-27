@@ -1,0 +1,183 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}The-Bala-JI Restaurant{% endblock %}</title>
+
+    <meta
+        name="description"
+        content="The-Bala-JI Restaurant - Delicious food, great atmosphere and memorable dining."
+    >
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="container navbar">
+
+        <a href="{% url 'home' %}" class="brand">
+            <span class="brand-icon">🍽️</span>
+            <span>
+                <strong>The-Bala-JI</strong>
+                <small>Restaurant</small>
+            </span>
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="{% url 'home' %}">Home</a>
+
+            <a href="{% url 'menu' %}">Menu</a>
+
+            <a href="{% url 'about' %}">About</a>
+
+            <a href="{% url 'gallery' %}">Gallery</a>
+
+            <a href="{% url 'offers' %}">Offers</a>
+
+            <a href="{% url 'reservation' %}">Reservation</a>
+
+            <a href="{% url 'contact' %}">Contact</a>
+
+        </nav>
+
+        <div class="nav-actions">
+
+            <a href="{% url 'cart' %}" class="cart-link">
+                🛒 Cart
+            </a>
+
+            <a href="{% url 'orders' %}">📦 Orders</a>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'profile' %}" class="login-link">
+                    👤 {{ user.username }}
+                </a>
+
+                <a href="{% url 'logout' %}" class="btn btn-small">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}" class="login-link">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}" class="btn btn-small">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</header>
+
+
+{% if messages %}
+
+<div class="messages-wrapper">
+
+    <div class="container">
+
+        {% for message in messages %}
+
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<main>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="container footer-grid">
+
+        <div>
+
+            <div class="footer-brand">
+                🍽️ The-Bala-JI Restaurant
+            </div>
+
+            <p>
+                Delicious food, warm hospitality and
+                memorable dining experiences.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'menu' %}">Menu</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'reservation' %}">Reservation</a>
+
+        </div>
+
+
+        <div>
+
+            <h3>Contact</h3>
+
+            <p>📍 Your Restaurant Address</p>
+            <p>📞 +91 8740964260 </p>
+            <p>✉️sanjubaba102007@gmail.com</p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Opening Hours</h3>
+
+            <p>Monday - Sunday</p>
+            <p>11:00 AM - 11:00 PM</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 The-Bala-JI Restaurant.
+            All Rights Reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

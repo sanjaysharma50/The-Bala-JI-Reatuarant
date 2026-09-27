@@ -1,0 +1,252 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+Book a Table | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<!-- =========================================================
+     RESERVATION HERO
+     ========================================================= -->
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            RESERVATION
+        </span>
+
+        <h1>
+            Reserve Your Table
+        </h1>
+
+        <p>
+            Plan your next meal with us.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     RESERVATION FORM
+     ========================================================= -->
+
+<section class="section">
+
+    <div class="container form-container">
+
+        <form
+            method="POST"
+            class="form-card"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- =================================================
+                 NAME
+                 ================================================= -->
+
+            <label for="name">
+                Full Name *
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                required
+            >
+
+
+            <!-- =================================================
+                 PHONE
+                 ================================================= -->
+
+            <label for="phone">
+                Phone Number *
+            </label>
+
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Enter your phone number"
+                required
+            >
+
+
+            <!-- =================================================
+                 EMAIL
+                 ================================================= -->
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+            >
+
+
+            <!-- =================================================
+                 DATE
+                 ================================================= -->
+
+            <label for="date">
+                Reservation Date *
+            </label>
+
+            <input
+                type="date"
+                id="date"
+                name="date"
+                required
+            >
+
+
+            <!-- =================================================
+                 TIME
+                 ================================================= -->
+
+            <label for="time">
+                Reservation Time *
+            </label>
+
+            <input
+                type="time"
+                id="time"
+                name="time"
+                required
+            >
+
+
+            <!-- =================================================
+                 GUESTS
+                 ================================================= -->
+
+            <label for="guests">
+                Number of Guests *
+            </label>
+
+            <input
+                type="number"
+                id="guests"
+                name="guests"
+                min="1"
+                max="20"
+                value="2"
+                required
+            >
+
+
+            <!-- =================================================
+                 SEATING PREFERENCE
+                 ================================================= -->
+
+            <label for="seating_preference">
+                Seating Preference
+            </label>
+
+            <select
+                id="seating_preference"
+                name="seating_preference"
+            >
+
+                <option value="no_preference">
+                    No Preference
+                </option>
+
+                <option value="indoor">
+                    Indoor
+                </option>
+
+                <option value="outdoor">
+                    Outdoor
+                </option>
+
+            </select>
+
+
+            <!-- =================================================
+                 TABLE
+                 ================================================= -->
+
+            <label for="table">
+                Select Table *
+            </label>
+
+            <select
+                id="table"
+                name="table"
+                required
+            >
+
+                <option value="">
+                    Select a Table
+                </option>
+
+                {% for table in tables %}
+
+                    <option
+                        value="{{ table.id }}"
+                    >
+                        Table {{ table.table_number }}
+                        — {{ table.capacity }} Seats
+                        — {{ table.get_location_display }}
+                    </option>
+
+                {% empty %}
+
+                    <option value="">
+                        No tables available
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <!-- =================================================
+                 SPECIAL REQUEST
+                 ================================================= -->
+
+            <label for="message">
+                Special Request
+            </label>
+
+            <textarea
+                id="message"
+                name="message"
+                rows="4"
+                placeholder="Birthday, anniversary, baby chair, or any other request..."
+            ></textarea>
+
+
+            <!-- =================================================
+                 SUBMIT
+                 ================================================= -->
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Reserve Table
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

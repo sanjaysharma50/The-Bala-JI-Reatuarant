@@ -1,0 +1,55 @@
+{% extends "restaurant/base.html" %}
+
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">OUR GALLERY</span>
+        <h1>Restaurant Gallery</h1>
+        <p>A glimpse of our food and restaurant.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        {% if gallery_images %}
+
+        <div class="gallery-grid">
+
+            {% for image in gallery_images %}
+
+            <div class="gallery-card">
+
+                {% if image.image %}
+                    <img
+                        src="{{ image.image.url }}"
+                        alt="{{ image.title|default:'Restaurant Gallery' }}"
+                    >
+                {% endif %}
+
+                {% if image.title %}
+                    <div class="gallery-caption">
+                        {{ image.title }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+            <h3>No gallery images available</h3>
+            <p>Please check back soon for restaurant photos.</p>
+        </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

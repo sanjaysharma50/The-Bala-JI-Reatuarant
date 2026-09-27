@@ -1,0 +1,178 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+Cart | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            YOUR CART
+        </span>
+
+        <h1>Shopping Cart</h1>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        {% if cart_items %}
+
+            <div class="cart-layout">
+
+                <div>
+
+                    {% for cart_item in cart_items %}
+
+                        <div class="cart-item">
+
+                            <div class="cart-item-image">
+
+                                {% if cart_item.item.image %}
+
+                                    <img
+                                        src="{{ cart_item.item.image.url }}"
+                                        alt="{{ cart_item.item.name }}"
+                                    >
+
+                                {% else %}
+
+                                    🍽️
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="cart-item-info">
+
+                                <h3>
+                                    {{ cart_item.item.name }}
+                                </h3>
+
+                                <p>
+                                    ₹{{ cart_item.item.price }}
+                                </p>
+
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'update_cart' cart_item.item.id %}"
+                                    class="quantity-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <input
+                                        type="number"
+                                        name="quantity"
+                                        value="{{ cart_item.quantity }}"
+                                        min="1"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small"
+                                    >
+                                        Update
+                                    </button>
+
+                                </form>
+
+
+                                <a
+                                    href="{% url 'remove_from_cart' cart_item.item.id %}"
+                                    class="remove-link"
+                                >
+                                    Remove
+                                </a>
+
+                            </div>
+
+
+                            <strong>
+                                ₹{{ cart_item.subtotal }}
+                            </strong>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="cart-summary">
+
+                    <h2>Order Summary</h2>
+
+                    <div class="summary-row">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong>
+                            ₹{{ total }}
+                        </strong>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'checkout' %}"
+                        class="btn full-btn"
+                    >
+                        Proceed to Checkout
+                    </a>
+
+                    <a
+                        href="{% url 'menu' %}"
+                        class="back-link"
+                    >
+                        ← Continue Shopping
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                <h2>Your Cart is Empty</h2>
+
+                <p>
+                    Add some delicious dishes to your cart.
+                </p>
+
+                <a
+                    href="{% url 'menu' %}"
+                    class="btn"
+                >
+                    Explore Menu
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

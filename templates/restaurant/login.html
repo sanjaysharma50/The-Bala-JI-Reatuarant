@@ -1,0 +1,71 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+Login | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <span class="eyebrow">
+            WELCOME BACK
+        </span>
+
+        <h1>Login</h1>
+
+        <p>
+            Login to manage your orders and profile.
+        </p>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Username</label>
+
+            <input
+                type="text"
+                name="username"
+                required
+            >
+
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn full-btn"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+Profile | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            MY ACCOUNT
+        </span>
+
+        <h1>My Profile</h1>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="profile-card">
+
+            <div class="profile-avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <div>
+
+                <h2>
+                    {{ user.username }}
+                </h2>
+
+                <p>
+                    {{ user.email }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="two-column">
+
+            <div>
+
+                <h2>
+                    Recent Orders
+                </h2>
+
+                {% for order in orders|slice:":5" %}
+
+                    <div class="mini-card">
+
+                        <strong>
+                            Order #{{ order.id }}
+                        </strong>
+
+                        <span>
+                            ₹{{ order.total_amount }}
+                        </span>
+
+                        <small>
+                            {{ order.get_status_display }}
+                        </small>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>
+                        No orders yet.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div>
+
+                <h2>
+                    Reservations
+                </h2>
+
+                {% for reservation in reservations|slice:":5" %}
+
+                    <div class="mini-card">
+
+                        <strong>
+                            {{ reservation.date }}
+                        </strong>
+
+                        <span>
+                            {{ reservation.time }}
+                        </span>
+
+                        <small>
+                            {{ reservation.status|title }}
+                        </small>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>
+                        No reservations yet.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

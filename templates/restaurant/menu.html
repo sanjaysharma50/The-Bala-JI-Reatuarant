@@ -1,0 +1,303 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}
+Menu | The-Bala-JI Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+<!-- =========================================================
+     MENU HERO
+     ========================================================= -->
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            OUR MENU
+        </span>
+
+        <h1>
+            Fresh. Delicious. Made for You.
+        </h1>
+
+        <p>
+            Explore our delicious collection of dishes.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MENU SECTION
+     ========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+
+        <!-- =================================================
+             SEARCH AND FILTER
+             ================================================= -->
+
+        <form method="GET" class="filter-box">
+
+            <!-- Search -->
+
+            <input
+                type="search"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search food..."
+            >
+
+
+            <!-- Category -->
+
+            <select name="category">
+
+                <option value="">
+                    All Categories
+                </option>
+
+                {% for category in categories %}
+
+                    <option
+                        value="{{ category.id }}"
+                        {% if selected_category == category.id|stringformat:"s" %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ category.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <!-- Food Type -->
+
+            <select name="food_type">
+
+                <option value="">
+                    All Food
+                </option>
+
+                <option
+                    value="veg"
+                    {% if selected_food_type == "veg" %}
+                        selected
+                    {% endif %}
+                >
+                    Vegetarian
+                </option>
+
+                <option
+                    value="non_veg"
+                    {% if selected_food_type == "non_veg" %}
+                        selected
+                    {% endif %}
+                >
+                    Non-Vegetarian
+                </option>
+
+            </select>
+
+
+            <!-- Sorting -->
+
+            <select name="sort">
+
+                <option value="">
+                    Sort By
+                </option>
+
+                <option
+                    value="price_low"
+                    {% if selected_sort == "price_low" %}
+                        selected
+                    {% endif %}
+                >
+                    Price: Low to High
+                </option>
+
+                <option
+                    value="price_high"
+                    {% if selected_sort == "price_high" %}
+                        selected
+                    {% endif %}
+                >
+                    Price: High to Low
+                </option>
+
+                <option
+                    value="name"
+                    {% if selected_sort == "name" %}
+                        selected
+                    {% endif %}
+                >
+                    Name
+                </option>
+
+            </select>
+
+
+            <!-- Search Button -->
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Search
+            </button>
+
+        </form>
+
+
+        <!-- =================================================
+             MENU ITEMS
+             ================================================= -->
+
+        <div class="food-grid menu-grid">
+
+            {% for item in items %}
+
+                <article class="food-card">
+
+
+                    <!-- Food Image -->
+
+                    <div class="food-image">
+
+                        {% if item.image %}
+
+                            <img
+                                src="{{ item.image.url }}"
+                                alt="{{ item.name }}"
+                            >
+
+                        {% else %}
+
+                            <div class="placeholder-image">
+                                🍽️
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- Food Type Badge -->
+
+                        <span class="food-badge">
+
+                            {% if item.food_type == "veg" %}
+
+                                🟢 Veg
+
+                            {% else %}
+
+                                🔴 Non-Veg
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Food Information -->
+
+                    <div class="food-info">
+
+
+                        <!-- Category -->
+
+                        <span class="category-label">
+                            {{ item.category.name }}
+                        </span>
+
+
+                        <!-- Name -->
+
+                        <h3>
+                            {{ item.name }}
+                        </h3>
+
+
+                        <!-- Description -->
+
+                        <p>
+                            {{ item.description|truncatewords:18 }}
+                        </p>
+
+
+                        <!-- Bottom Section -->
+
+                        <div class="food-bottom">
+
+
+                            <!-- Price -->
+
+                            <strong>
+                                ₹{{ item.price }}
+                            </strong>
+
+
+                            <!-- Actions -->
+
+                            <div class="food-actions">
+
+                                <a
+                                    href="{% url 'menu_detail' item.id %}"
+                                    class="text-btn"
+                                >
+                                    Details
+                                </a>
+
+
+                                <a
+                                    href="{% url 'add_to_cart' item.id %}"
+                                    class="btn btn-small"
+                                >
+                                    Add
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+            {% empty %}
+
+                <!-- No Items -->
+
+                <div class="empty-state">
+
+                    <h3>
+                        No dishes found
+                    </h3>
+
+                    <p>
+                        Try changing your search or filters.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
